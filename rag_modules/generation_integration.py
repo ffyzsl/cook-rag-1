@@ -2,7 +2,7 @@ import os
 import logging
 from typing import List
 
-from click import prompt
+
 from langchain_core.prompts import ChatPromptTemplate, PromptTemplate
 # 【修改1】引入通义千问的 LangChain 接口
 from langchain_community.chat_models import ChatTongyi
@@ -98,7 +98,7 @@ class GenerationIntegrationModule:
             | StrOutputParser()
         )
 
-        response = prompt.invoke(query)
+        response = chain.invoke(query)
         return response
 
     def generate_basic_answer_stream(self, query: str, context_docs: List[Document]):

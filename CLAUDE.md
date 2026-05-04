@@ -12,12 +12,13 @@ No CLI arguments. The system loads a pre-built FAISS index from `vector_index/` 
 
 ## Conda environment
 
-The project uses the `cook-rag-1` conda environment. Key dependencies (no `requirements.txt` exists):
+The project uses the `cook-rag-1` conda environment. Install dependencies:
 
-- `langchain`, `langchain-community`, `langchain-text-splitters`, `langchain-core`
-- `faiss-cpu` (or `faiss` with AVX2 support)
-- `dashscope` (Alibaba Cloud Bailian SDK)
-- `python-dotenv`
+```bash
+pip install -r requirements.txt
+```
+
+Key dependencies: `langchain`, `langchain-community`, `langchain-text-splitters`, `langchain-core`, `faiss-cpu`, `dashscope` (Alibaba Cloud Bailian SDK), `python-dotenv`.
 
 ## Architecture
 
@@ -65,7 +66,5 @@ Requires `DASHSCOPE_API_KEY` in `.env` for both embeddings and LLM. The `MOONSHO
 
 ## Known issues
 
-- **No dependency file** — no `requirements.txt` or `pyproject.toml`. Dependencies must be installed manually.
-- **`generate_basic_answer()` and its streaming variant** build a LangChain chain but call `prompt.invoke(query)` directly with a raw string instead of using the chain, which may produce errors since `ChatPromptTemplate` expects a dict with `{question, context}` keys.
-- **`from click import prompt`** in `generation_integration.py` is unused.
 - **Emoji encoding errors on Windows** — the interactive prompts use emoji (`🍽️`) that will fail on GBK-configured Windows consoles. Use a UTF-8 terminal (VS Code, PyCharm, Windows Terminal with UTF-8 enabled).
+- **MOONSHOT_API_KEY check is misleading** — `main.py` line 52 validates `MOONSHOT_API_KEY` at startup, but no module actually uses it. Only `DASHSCOPE_API_KEY` matters.
